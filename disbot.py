@@ -35,7 +35,10 @@ async def on_ready():
     print(f"Loggin in as {bot.user}")
     print("Microbit detected? " + "No" if ser == None else "Yes")
     print("--------")
-    ser.open()
+
+    if ser != None:
+        ser.open()
+
     await bot.change_presence(activity=discord.CustomActivity(name='Glooping'))
     await bot.change_presence(activity=discord.Game("Team Defense Fort 2"))
 
@@ -91,7 +94,7 @@ async def display(ctx, *message):
         st += i + " "
 
     ser.write(b'DISPLAY.' + st.encode() + b'\n')
-    
+
     await ctx.send("serial code sent.")
 
 # silly stuff
@@ -103,7 +106,10 @@ async def reply(ctx, *message):
     for i in message:
         st += i + " "
 
-    await ctx.reply(st)
+    if len(st) > 0:
+        await ctx.reply(st)
+    else:
+        await ctx.reply("fake")
 
 @bot.command()
 async def fuck(ctx):
