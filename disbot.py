@@ -35,6 +35,7 @@ async def on_ready():
     print(f"Loggin in as {bot.user}")
     print("Microbit detected? " + "No" if ser == None else "Yes")
     print("--------")
+    ser.open()
     await bot.change_presence(activity=discord.CustomActivity(name='Glooping'))
     await bot.change_presence(activity=discord.Game("Team Defense Fort 2"))
 
@@ -77,6 +78,20 @@ async def beep(ctx):
 
     ser.write(b'BEEP.') # implement this on the microbit later
 
+    await ctx.send("serial code sent.")
+
+@bot.command(help="displays a message on the microbit")
+async def display(ctx, *message):
+    if ser == None:
+        await ctx.send("no microbit connected.")
+
+    st = ""
+
+    for i in message:
+        st += i + " "
+
+    ser.write(b'DISPLAY.' + st.encode() + b'\n')
+    
     await ctx.send("serial code sent.")
 
 # silly stuff
