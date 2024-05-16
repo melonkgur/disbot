@@ -7,15 +7,29 @@
  * the only reason that it is here is so that we are able to track it and save it with the rest
  * of the repo.
  */
-basic.forever(function on_forever() {
+(function on_start() { // on start, i think. i forget how this is done by default
+    music.setBuiltInSpeakerEnabled(true)
+})()
+
+basic.forever(function on_forever() { // loop
     let args: string;
     let cmd = serial.readUntil(".")
     if (cmd.length > 0) {
         if (cmd == "BEEP") {
-            music.createSoundExpression(WaveShape.Square, 131, 0, 127, 0, 50, SoundExpressionEffect.None, InterpolationCurve.Logarithmic)
+            music.createSoundExpression(
+                WaveShape.Square,
+                131,
+                0,
+                255,
+                0,
+                500,
+                SoundExpressionEffect.None,
+                InterpolationCurve.Logarithmic
+            )
         } else if (cmd == "DISPLAY") {
             args = serial.readUntil(serial.delimiters(Delimiters.NewLine))
             basic.showString(args)
         }
     }
 })
+
