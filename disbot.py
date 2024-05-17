@@ -33,7 +33,7 @@ bot = commands.Bot(command_prefix='😀', description=description, intents=inten
 @bot.event
 async def on_ready():
     print(f"Loggin in as {bot.user}")
-    print("Microbit detected? " + "No" if ser == None else "Yes")
+    print("Microbit detected? " + ("No" if ser == None else "Yes"))
     print("--------")
 
     if ser != None:
